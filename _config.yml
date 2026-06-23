@@ -1,0 +1,81 @@
+theme: jekyll-theme-chirpy
+
+lang: zh-CN
+timezone: Asia/Shenzhen
+
+title: "Trainer's Log"
+tagline: "Gotta Read Em All"
+description: "每日收集财经、科技、足球、论文情报的训练师日志"
+
+url: "https://can-gaa-hou.github.io"
+baseurl: ""
+
+github:
+  username: can-gaa-hou
+
+twitter:
+  username: ""
+
+social:
+  name: Jiahao Chen
+  email: jiahaochen535@gmail.com
+  links:
+    - https://github.com/can-gaa-hou
+
+avatar: /assets/img/avatar.png
+
+toc: true
+
+comments:
+  active: ""
+
+paginate: 10
+
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    block:
+      line_numbers: true
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: false
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _tabs
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - CHANGELOG.md
+  - LICENSE
+  - "rollup.config.js"
+  - "package*.json"
