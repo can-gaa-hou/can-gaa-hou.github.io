@@ -1,3 +1,59 @@
 {
-  
+  "2026-06-26": [
+    {
+      "title": "Nano-vLLM源码解读第20篇CUDA Graph",
+      "date": "2026-06-22T10:00:00+08:00",
+      "externalUrl": "https://zhuanlan.zhihu.com/p/2052354458068186515",
+      "tags": ["vLLM", "源码解读", "CUDA Graph", "大模型推理"],
+      "source": "知乎",
+      "description": "深入解析Nano-vLLM中CUDA Graph的实现原理与优化策略，作为Nano-vLLM源码解读系列第20篇，从千行级精简代码切入，系统剖析vLLM如何借助CUDA Graph减少CPU调度开销、提升GPU利用率，是理解LLM推理底层加速机制的高质量技术资料。",
+      "collector_score": 0.521,
+      "llm_score": 0.800,
+      "final_score": 0.661
+    },
+    {
+      "title": "大模型推理框架SGLang和vLLM区别",
+      "date": "2026-06-01T10:00:00+08:00",
+      "externalUrl": "https://www.zhihu.com/question/666943660/answer/2044879382901175942",
+      "tags": ["vLLM", "SGLang", "推理框架", "模型部署"],
+      "source": "知乎",
+      "description": "基于一年多的生产环境实战经验，从架构设计、性能表现、生态兼容性等维度深入对比SGLang与vLLM两大推理框架。作者经历了十几次版本升级并尝试切换，最终结合真实落地场景给出选型建议，对框架决策有极强的实践参考价值。",
+      "collector_score": 0.548,
+      "llm_score": 0.763,
+      "final_score": 0.655
+    },
+    {
+      "title": "手把手教你改vLLM源码①",
+      "date": "2026-06-09T10:00:00+08:00",
+      "externalUrl": "https://zhuanlan.zhihu.com/p/2047757570044121241",
+      "tags": ["vLLM", "源码解读", "AI Infra"],
+      "source": "知乎",
+      "description": "深度讲解为什么值得逐行研读vLLM源码，并手把手示范修改vLLM核心代码的完整流程。从仓库克隆、分支管理到代码定位与修改实践，为希望深入理解甚至贡献vLLM的开发者提供了一条清晰的进阶路径，涵盖工程实践与底层原理。",
+      "collector_score": 0.453,
+      "llm_score": 0.775,
+      "final_score": 0.614
+    },
+    {
+      "title": "Nano-vLLM从零阅读源码",
+      "date": "2026-06-05T10:00:00+08:00",
+      "externalUrl": "https://zhuanlan.zhihu.com/p/1957588398945575407",
+      "tags": ["vLLM", "源码解读", "大模型推理"],
+      "source": "知乎",
+      "description": "以Nano-vLLM项目为线索，从零开始逐行解读vLLM核心源码。Nano-vLLM是将工业级vLLM简化为千行级别代码的教学版本，适合在本地单机多卡环境运行。文章系统梳理了请求生命周期、PageAttention等关键模块的实现，是入门vLLM源码的优质材料。",
+      "collector_score": 0.473,
+      "llm_score": 0.750,
+      "final_score": 0.612
+    },
+    {
+      "title": "解读vLLM中DFlash投机解码实现",
+      "date": "2026-06-16T10:00:00+08:00",
+      "externalUrl": "https://zhuanlan.zhihu.com/p/2050274067199087767",
+      "tags": ["vLLM", "投机解码", "大模型推理", "推理优化"],
+      "source": "知乎",
+      "description": "深入解读vLLM中DFlash（Speculative Decoding）的完整实现方案。从DFlash在vLLM推理管线中的整体定位入手，分析了投机解码的核心机制、草稿模型与目标模型的协同推理策略，以及DFlash如何在不降低生成质量的前提下显著加速LLM推理吞吐。",
+      "collector_score": 0.447,
+      "llm_score": 0.775,
+      "final_score": 0.611
+    }
+  ]
 }
