@@ -1,0 +1,23 @@
+{{- $data := .Site.Data.content -}}
+{{- range $date, $items := $data -}}
+  {{- range $i, $item := $items -}}
+    {{- $extUrl  := or $item.externalUrl $item.url "" -}}
+    {{- $desc    := or $item.description $item.summary "" -}}
+    {{- $tags    := $item.tags | default slice -}}
+    {{- $itemDate := $item.date | default $date -}}
+    {{- $.AddPage (dict
+      "path"   (printf "%s-%02d" $date $i)
+      "title"  $item.title
+      "date"   $itemDate
+      "params" (dict
+        "externalUrl" $extUrl
+        "description" $desc
+        "summary"     $desc
+        "tags"        $tags
+        "source"      ($item.source | default "")
+        "showReadingTime" false
+        "showWordCount"   false
+      )
+    ) -}}
+  {{- end -}}
+{{- end -}}
