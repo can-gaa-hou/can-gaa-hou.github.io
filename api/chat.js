@@ -3,7 +3,7 @@
  *
  * Env vars (set in Vercel dashboard):
  *   OPENROUTER_API_KEY  — your OpenRouter API key
- *   OPENROUTER_MODEL    — optional (default: deepseek/deepseek-chat-v3-0324:free)
+ *   OPENROUTER_MODEL    — optional (default: nvidia/nemotron-3-nano-30b-a3b:free)
  *   OPENROUTER_BASE_URL — optional (default: https://openrouter.ai/api/v1)
  */
 
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
   try {
     const stream = await client.chat.completions.create({
-      model: process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat-v3-0324:free',
+      model: process.env.OPENROUTER_MODEL || 'nvidia/nemotron-3-nano-30b-a3b:free',
       max_tokens: 1024,
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },

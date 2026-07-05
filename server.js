@@ -73,7 +73,7 @@ async function handleChat(req, res) {
       });
 
       const stream = await client.chat.completions.create({
-        model: process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat-v3-0324:free',
+        model: process.env.OPENROUTER_MODEL || 'nvidia/nemotron-3-nano-30b-a3b:free',
         max_tokens: 1024,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
@@ -132,5 +132,5 @@ server.listen(PORT, () => {
   console.log(`→ Local server: http://localhost:${PORT}`);
   console.log(`  API key:  ${process.env.OPENROUTER_API_KEY ? '✓ loaded' : '✗ missing'}`);
   console.log(`  Provider: ${process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1'}`);
-  console.log(`  Model:    ${process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat-v3-0324:free'}`);
+  console.log(`  Model:    ${process.env.OPENROUTER_MODEL || 'nvidia/nemotron-3-nano-30b-a3b:free'}`);
 });
