@@ -75,6 +75,7 @@ function initChat() {
 
     // Add loading placeholder
     const loadingId = addLoading();
+    let msgId = null;
 
     try {
       const apiUrl = window.location.hostname === 'localhost'
@@ -91,7 +92,7 @@ function initChat() {
 
       // Remove loading, add assistant message
       removeLoading(loadingId);
-      const msgId = addMessage('assistant', '');
+      msgId = addMessage('assistant', '');
 
       // Stream the response via SSE
       const reader = res.body.getReader();
@@ -124,8 +125,19 @@ function initChat() {
       }
     } catch (err) {
       removeLoading(loadingId);
+      // Remove streaming cursor if it was already created
+      if (msgId) {
+        const el = document.getElementById(msgId);
+        if (el) el.classList.remove('chat-msg-streaming');
+      }
       addMessage('assistant', '⚠️ Unable to reach the server. Make sure the API is deployed.');
       console.error('Chat error:', err);
+    }
+
+    // Remove blinking cursor after streaming completes
+    if (msgId) {
+      const el = document.getElementById(msgId);
+      if (el) el.classList.remove('chat-msg-streaming');
     }
 
     streaming = false;
