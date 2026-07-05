@@ -77,7 +77,9 @@ function initChat() {
     const loadingId = addLoading();
 
     try {
-      const apiUrl = '/api/chat';
+      const apiUrl = window.location.hostname === 'localhost'
+        ? '/api/chat'
+        : 'https://can-gaa-hou-github-io.vercel.app/api/chat';
 
       const res = await fetch(apiUrl, {
         method: 'POST',
