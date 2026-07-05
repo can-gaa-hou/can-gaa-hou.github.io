@@ -53,7 +53,9 @@ async function handleChat(req, res) {
     try {
       const { prompt } = JSON.parse(body);
       if (!prompt?.trim()) {
-        res.writeHead(400);
+        res.writeHead(400, {
+          'Access-Control-Allow-Origin': req.headers.origin || '*',
+        });
         return res.end(JSON.stringify({ error: 'prompt is required' }));
       }
 
@@ -61,6 +63,7 @@ async function handleChat(req, res) {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
         Connection: 'keep-alive',
+        'Access-Control-Allow-Origin': req.headers.origin || '*',
       });
 
       const client = new OpenAI({
