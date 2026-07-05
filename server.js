@@ -122,6 +122,17 @@ function serveStatic(req, res) {
 
 // --- Server ---
 const server = createServer((req, res) => {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': req.headers.origin || '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '86400',
+    });
+    return res.end();
+  }
+
   if (req.method === 'POST' && req.url === '/api/chat') {
     return handleChat(req, res);
   }
