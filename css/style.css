@@ -32,7 +32,7 @@
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 
   /* Spacing */
-  --content-max: 720px;
+  --content-max: 900px;
   --nav-height: 56px;
 
   /* Radius */
@@ -255,7 +255,7 @@ img {
 .hero-tagline {
   font-size: 18px;
   color: var(--text-secondary);
-  max-width: 560px;
+  max-width: 700px;
   margin: 0 auto 16px;
   line-height: 1.65;
   min-height: 3.3em;
@@ -270,7 +270,7 @@ img {
 .hero-bio {
   font-size: 15px;
   color: var(--text-muted);
-  max-width: 500px;
+  max-width: 620px;
   margin: 0 auto 36px;
   line-height: 1.7;
 }
@@ -282,7 +282,7 @@ img {
 
 /* Chat area */
 .chat {
-  max-width: 600px;
+  max-width: 740px;
   width: 100%;
   margin: 0 auto 40px;
   text-align: left;

@@ -4,7 +4,7 @@
    ============================================ */
 
 .article {
-  max-width: 680px;
+  max-width: 860px;
   margin: 0 auto;
   padding: 120px 24px 80px;
 }
@@ -305,7 +305,7 @@
 
 /* Giscus */
 .giscus-wrap {
-  max-width: 720px;
+  max-width: 860px;
   margin: 0 auto;
   padding: 0 24px 80px;
 }
