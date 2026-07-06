@@ -1,3 +1,5 @@
+*摘自[开源时刻](https://zhuanlan.zhihu.com/p/1947340533782538059)*
+
 >AI 热潮下，PyPI日均下载25亿次，但包管理痛点凸显。WheelNext项目通过多个PEP提案，解决默认依赖、大文件托管等问题，重塑 Python 包生态。
 
 <div align="center">

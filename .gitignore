@@ -1,3 +1,8 @@
 node_modules/
 .env
 .vercel
+assets/
+layouts/
+public/
+.hugo_build.lock
+go.sum

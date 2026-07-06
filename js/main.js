@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initTaglineCycler();
   initChat();
+  initLatestPosts();
   initScrollAnimations();
   initMobileNav();
   initSmoothScroll();
@@ -254,6 +255,60 @@ function initMobileNav() {
       links.classList.remove('open');
     }
   });
+}
+
+// --- Latest Posts ---
+
+async function initLatestPosts() {
+  const grid = document.getElementById('latestPostsGrid');
+  const empty = document.getElementById('latestPostsEmpty');
+  if (!grid) return;
+
+  try {
+    const res = await fetch('posts/manifest.json');
+    const allPosts = await res.json();
+    allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    const latest = allPosts.slice(0, 3);
+
+    if (latest.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+
+    grid.innerHTML = latest.map(post => {
+      const date = new Date(post.date).toLocaleDateString('zh-CN', {
+        year: 'numeric', month: '2-digit', day: '2-digit'
+      });
+      const tags = (post.tags || []).slice(0, 4).map(t =>
+        `<span class="blog-card-tag">${escapeHtmlMain(t)}</span>`
+      ).join('');
+      const href = post.type === 'local'
+        ? `post.html?slug=${encodeURIComponent(post.slug)}`
+        : post.url;
+      const isExternal = post.type === 'external';
+      return `
+        <a href="${escapeHtmlMain(href)}"
+           ${isExternal ? 'target="_blank" rel="noopener"' : ''}
+           class="blog-card">
+          <div class="blog-card-header">
+            <span class="blog-card-source">${escapeHtmlMain(post.source || 'Blog')}</span>
+          </div>
+          <h3 class="blog-card-title">${escapeHtmlMain(post.title)}</h3>
+          <div class="blog-card-meta">
+            <span class="blog-card-date">${date}</span>
+            <div class="blog-card-tags">${tags}</div>
+          </div>
+        </a>`;
+    }).join('');
+  } catch (err) {
+    if (empty) empty.style.display = 'block';
+  }
+}
+
+function escapeHtmlMain(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 // --- Smooth Scroll ---

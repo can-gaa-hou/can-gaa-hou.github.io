@@ -303,6 +303,13 @@
   color: var(--text-primary);
 }
 
+/* Giscus */
+.giscus-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .article {

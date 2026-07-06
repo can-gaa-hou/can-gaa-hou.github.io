@@ -11,7 +11,7 @@ async function loadAndRenderPost() {
   const slug = new URLSearchParams(window.location.search).get('slug');
 
   if (!slug) {
-    showError(article, 'No post specified.', 'Please select a post from the blog.');
+    showError(article, 'No post specified.', 'Please select a post from the posts page.');
     return;
   }
 
@@ -72,9 +72,9 @@ function renderPost(container, post, markdown) {
 
   container.innerHTML = `
     <header class="article-header">
-      <a href="index.html#blog" class="article-back">
+      <a href="posts.html" class="article-back">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-        Back to Blog
+        Back to Posts
       </a>
       <div class="article-meta-top">
         ${post.source ? `<span class="article-source">${escapeHtml(post.source)}</span>` : ''}
@@ -86,7 +86,7 @@ function renderPost(container, post, markdown) {
     <div class="article-body">${htmlContent}</div>
     <footer class="article-footer">
       <div class="article-footer-nav">
-        <a href="blog.html">← Back to Blog</a>
+        <a href="posts.html">← Back to Posts</a>
         <a href="index.html">Home</a>
       </div>
     </footer>
@@ -94,6 +94,27 @@ function renderPost(container, post, markdown) {
 
   // Update page title
   document.title = `${post.title} — Jiahao Chen`;
+
+  // Inject Giscus
+  const giscusWrap = document.getElementById('giscusContainer');
+  if (giscusWrap) {
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'can-gaa-hou/can-gaa-hou.github.io');
+    script.setAttribute('data-repo-id', 'R_kgDOO4CxiQ');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOO4Cxic4DAmHS');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'top');
+    script.setAttribute('data-theme', 'dark_dimmed');
+    script.setAttribute('data-lang', 'zh-CN');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    giscusWrap.appendChild(script);
+  }
 }
 
 function showError(container, title, message) {
@@ -101,7 +122,7 @@ function showError(container, title, message) {
     <div class="article-error">
       <h2>${escapeHtml(title)}</h2>
       <p>${escapeHtml(message)}</p>
-      <a href="blog.html">← Back to Blog</a>
+      <a href="posts.html">← Back to Posts</a>
     </div>
   `;
 }

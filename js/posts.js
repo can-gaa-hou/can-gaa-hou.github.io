@@ -48,7 +48,7 @@ async function renderBlogPage() {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const page = parseInt(link.dataset.page);
-          window.location.href = `blog.html?page=${page}`;
+          window.location.href = `posts.html?page=${page}`;
         });
       });
     } else {

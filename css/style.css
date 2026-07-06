@@ -226,7 +226,7 @@ img {
 .hero {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 140px 24px 80px;
+  padding: 100px 24px 48px;
   text-align: center;
 }
 
@@ -621,7 +621,7 @@ img {
 .section {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 80px 24px;
+  padding: 48px 24px;
 }
 
 .section-header {
@@ -921,7 +921,7 @@ img {
 
 @media (max-width: 640px) {
   .hero {
-    padding: 110px 20px 60px;
+    padding: 80px 20px 36px;
   }
 
   .hero-name {
@@ -946,7 +946,7 @@ img {
   }
 
   .section {
-    padding: 60px 20px;
+    padding: 36px 20px;
   }
 
   .section-title {
