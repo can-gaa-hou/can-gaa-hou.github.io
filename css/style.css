@@ -702,7 +702,6 @@ img {
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  flex: 1;
 }
 
 .blog-card-source {
@@ -715,6 +714,17 @@ img {
   background: var(--accent-blue-muted);
   border: 1px solid rgba(106, 155, 204, 0.2);
   white-space: nowrap;
+}
+
+.blog-card-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-top: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .blog-card-meta {

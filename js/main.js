@@ -294,6 +294,7 @@ async function initLatestPosts() {
             <span class="blog-card-source">${escapeHtmlMain(post.source || 'Blog')}</span>
           </div>
           <h3 class="blog-card-title">${escapeHtmlMain(post.title)}</h3>
+          ${post.description ? `<p class="blog-card-desc">${escapeHtmlMain(post.description)}</p>` : ''}
           <div class="blog-card-meta">
             <span class="blog-card-date">${date}</span>
             <div class="blog-card-tags">${tags}</div>

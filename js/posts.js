@@ -87,6 +87,7 @@ function renderCard(post) {
         <span class="blog-card-source">${escapeHtml(post.source || 'Blog')}</span>
       </div>
       <h3 class="blog-card-title">${escapeHtml(post.title)}</h3>
+      ${post.description ? `<p class="blog-card-desc">${escapeHtml(post.description)}</p>` : ''}
       <div class="blog-card-meta">
         <span class="blog-card-date">${formattedDate}</span>
         <div class="blog-card-tags">${tags}</div>

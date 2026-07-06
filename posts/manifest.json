@@ -2,11 +2,21 @@
   {
     "slug": "Wheelnext正在悄悄重塑python软件生态",
     "title": "WheelNext正在悄悄重塑Python软件生态",
-    "date": "2026-07-01T10:00:00+08:00",
+    "date": "2026-07-01",
     "tags": ["Python", "Infrastructure"],
     "description": "介绍wheelNext如何改变Python的包管理方式，以及它对整个生态系统的影响。",
     "type": "local",
     "file": "wheelNext正在悄悄重塑Python软件生态.md",
+    "source": "技术"
+  },
+  {
+    "slug": "一段文字进入大模型之后-QKV到底是什么",
+    "title": "一段文字进入大模型之后-QKV到底是什么",
+    "date": "2026-07-06",
+    "tags": ["LLM"],
+    "description": "深入探讨大模型中的QKV机制，解释其在处理文本数据时的作用和重要性。",
+    "type": "local",
+    "file": "一段文字进入大模型之后-QKV到底是什么.md",
     "source": "技术"
   }
 ]
