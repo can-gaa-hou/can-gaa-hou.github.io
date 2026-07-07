@@ -5,4 +5,5 @@ assets/
 layouts/
 public/
 .hugo_build.lock
+go.mod
 go.sum
