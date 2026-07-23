@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PagedAttention 交互演示</title>
+<style>
+  :root{
+    --seqA:#4C8BF5; --seqB:#F4A83D; --seqC:#3FBF7F;
+    --free:#33332f; --bg:#141413; --card:#1a1a18; --border:#2a2a27;
+    --text:#e8e6e0; --text-dim:#9a978e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    margin:0; padding:16px; line-height:1.5;
+  }
+  .sub{color:var(--text-dim); font-size:12px; margin-bottom:14px;}
+  .stage{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:18px 20px; margin-bottom:14px;
+  }
+  .row{display:flex; align-items:center; gap:12px; margin-bottom:20px;}
+  .row:last-child{margin-bottom:4px;}
+  .row .label{width:140px; font-size:12px; color:var(--text-dim); flex-shrink:0;}
+  .blocks{display:flex; gap:6px; flex-wrap:wrap; min-height:44px;}
+  .blk{
+    width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:600; color:#fff; border:2px solid rgba(255,255,255,.12);
+    position:relative; transition:all .5s ease;
+  }
+  .blk.free{background:var(--free); color:#7a776e; border-style:dashed;}
+  .blk.seqA{background:var(--seqA);}
+  .blk.seqB{background:var(--seqB);}
+  .blk.seqC{background:var(--seqC);}
+  .blk.pulse{animation:pulse 1s ease infinite;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.55);}
+    50%{box-shadow:0 0 0 6px rgba(255,255,255,0);}
+  }
+  .tokens{font-size:9px; opacity:.9; position:absolute; bottom:-15px; white-space:nowrap; color:var(--text-dim);}
+  .legend{display:flex; gap:14px; font-size:12px; color:var(--text-dim); margin-bottom:10px; flex-wrap:wrap;}
+  .legend span{display:inline-flex; align-items:center; gap:5px;}
+  .dot{width:11px; height:11px; border-radius:3px; display:inline-block;}
+  #svgLayer{position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:visible;}
+  .stage-wrap{position:relative;}
+  .arrow{stroke:var(--text); stroke-width:2; fill:none; opacity:0; transition:opacity .4s ease;}
+  .arrow.show{opacity:.85;}
+  .arrowhead{fill:var(--text);}
+  .caption{
+    background:var(--bg); border:1px solid var(--border); border-left:3px solid var(--seqA);
+    padding:10px 14px; border-radius:6px;
+    font-size:13px; margin-top:8px; min-height:64px;
+  }
+  .controls{display:flex; gap:10px; align-items:center; margin-top:12px;}
+  button{
+    background:var(--seqA); border:none; color:#fff; padding:7px 16px; border-radius:6px; font-size:13px;
+    cursor:pointer; font-weight:600;
+  }
+  button:disabled{opacity:.35; cursor:not-allowed;}
+  button.secondary{background:#33332f;}
+  .step-indicator{font-size:12px; color:var(--text-dim);}
+</style>
+</head>
+<body>
+<div class="sub">block_size = 4 tokens/block　｜　物理 KV cache pool 共 8 个 block（GPU 显存中连续预分配）｜ 点击「下一步」逐步播放</div>
+
+<div class="legend">
+  <span><i class="dot" style="background:var(--seqA)"></i> 请求 A</span>
+  <span><i class="dot" style="background:var(--seqB)"></i> 请求 B</span>
+  <span><i class="dot" style="background:var(--seqC)"></i> 请求 C（复用 A 的前缀）</span>
+  <span><i class="dot" style="background:var(--free)"></i> 空闲 block（free list）</span>
+</div>
+
+<div class="stage stage-wrap">
+  <div class="row">
+    <div class="label">物理 Block Pool<br><span style="opacity:.7">(GPU 显存, num_gpu_blocks=8)</span></div>
+    <div class="blocks" id="pool"></div>
+  </div>
+  <div class="row">
+    <div class="label">请求 A 的 block_table<br><span style="opacity:.7">(逻辑序号 → 物理 block_id)</span></div>
+    <div class="blocks" id="tableA"></div>
+  </div>
+  <div class="row">
+    <div class="label">请求 B 的 block_table</div>
+    <div class="blocks" id="tableB"></div>
+  </div>
+  <div class="row">
+    <div class="label">请求 C 的 block_table<br><span style="opacity:.7">(前缀缓存复用)</span></div>
+    <div class="blocks" id="tableC"></div>
+  </div>
+  <svg id="svgLayer">
+    <defs>
+      <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" class="arrowhead"/>
+      </marker>
+    </defs>
+  </svg>
+</div>
+
+<div class="caption" id="caption"></div>
+
+<div class="controls">
+  <button class="secondary" id="prevBtn">上一步</button>
+  <button id="nextBtn">下一步 ▶</button>
+  <span class="step-indicator" id="stepIndicator"></span>
+</div>
+
+<script>
+const POOL_SIZE = 8;
+const pool = document.getElementById('pool');
+const tableA = document.getElementById('tableA');
+const tableB = document.getElementById('tableB');
+const tableC = document.getElementById('tableC');
+const caption = document.getElementById('caption');
+const svg = document.getElementById('svgLayer');
+
+let poolState, tableAState, tableBState, tableCState;
+
+function render(){
+  pool.innerHTML = '';
+  poolState.forEach((b, i) => {
+    const d = document.createElement('div');
+    d.className = 'blk ' + (b.owner ? b.owner : 'free');
+    d.id = 'pool-'+i;
+    d.innerHTML = '#'+i + (b.tokens ? `<div class="tokens">${b.tokens}</div>` : '');
+    pool.appendChild(d);
+  });
+  const renderTable = (el, state, prefix) => {
+    el.innerHTML = '';
+    state.forEach((pid, logicalIdx) => {
+      const d = document.createElement('div');
+      d.className = 'blk ' + poolState[pid].owner;
+      d.id = prefix+'-'+logicalIdx;
+      d.innerHTML = 'L'+logicalIdx+'<div class="tokens">→ #'+pid+'</div>';
+      el.appendChild(d);
+    });
+  };
+  renderTable(tableA, tableAState, 'ta');
+  renderTable(tableB, tableBState, 'tb');
+  renderTable(tableC, tableCState, 'tc');
+}
+
+function clearPulses(){
+  document.querySelectorAll('.pulse').forEach(e=>e.classList.remove('pulse'));
+}
+function clearArrows(){
+  svg.querySelectorAll('.arrow').forEach(e=>e.remove());
+}
+
+function drawArrow(fromEl, toEl){
+  if (!fromEl || !toEl) return;
+  const stageRect = document.querySelector('.stage-wrap').getBoundingClientRect();
+  const f = fromEl.getBoundingClientRect();
+  const t = toEl.getBoundingClientRect();
+  const x1 = f.left + f.width/2 - stageRect.left;
+  const y1 = f.top - stageRect.top;
+  const x2 = t.left + t.width/2 - stageRect.left;
+  const y2 = t.top + t.height - stageRect.top;
+  const midY = (y1+y2)/2;
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', `M${x1},${y1} C${x1},${midY} ${x2},${midY} ${x2},${y2}`);
+  path.setAttribute('class','arrow');
+  path.setAttribute('marker-end','url(#arrowhead)');
+  svg.appendChild(path);
+  requestAnimationFrame(()=>path.classList.add('show'));
+}
+
+function allocBlock(owner, tokens){
+  const idx = poolState.findIndex(b => b.owner === null);
+  poolState[idx] = {owner, tokens};
+  return idx;
+}
+function freeBlocksOf(owner){
+  poolState.forEach(b => { if (b.owner === owner) { b.owner = null; b.tokens=''; } });
+}
+
+const steps = [
+  {
+    caption: '初始状态：8 个物理 block 全部空闲，位于 GPU 上预分配的一大块连续显存（KV cache pool）中，此时没有任何请求。',
+    run: () => {}
+  },
+  {
+    caption: '请求 A 到来，Prefill 输入 "The capital of France is"（5 个 token）。KVCacheManager.allocate_slots() 从 free list 取 block，按 block_size=4 切分：逻辑 block L0 装前 4 个 token，L1 装剩下 1 个。',
+    run: () => {
+      const b0 = allocBlock('seqA', 'The/capi/tal/of');
+      const b1 = allocBlock('seqA', 'France');
+      tableAState = [b0, b1];
+    }
+  },
+  {
+    caption: '请求 B 到来，Prefill "Hello world"（2 个 token），只需要 1 个物理 block，从 free list 继续分配下一个空闲 block #2。',
+    run: () => {
+      const b = allocBlock('seqB', 'Hello/world');
+      tableBState = [b];
+    }
+  },
+  {
+    caption: 'Decode 阶段：请求 A 生成新 token "Paris"。它的最后一个逻辑 block L1 还有空位（4 个槽只用了 1 个），直接写入同一个物理 block，无需新分配——这就是相比"按最大长度整块预留"的核心省显存点。',
+    run: () => {
+      poolState[tableAState[1]].tokens = 'France/Paris';
+    }
+  },
+  {
+    caption: '请求 A 继续生成，L1 写满后，下一个新 token 到来时必须从 free list 再分配一个新物理 block（#3），追加到 block_table 末尾。分配永远是"一次一个 block"的按需粒度。',
+    run: () => {
+      const b = allocBlock('seqA', 'is/,/and/it');
+      tableAState.push(b);
+    }
+  },
+  {
+    caption: 'block_table 的本质：一张「逻辑 block 序号 → 物理 block_id」的间接映射表，等价于操作系统虚拟内存的页表。A 的 block 物理上不连续（#0、#1、#3，中间夹着 B 的 #2），但逻辑上仍是一条完整序列。',
+    run: () => {},
+    afterRender: () => {
+      [0,1,2].forEach(i=>{
+        document.getElementById('pool-'+tableAState[i]).classList.add('pulse');
+        drawArrow(document.getElementById('ta-'+i), document.getElementById('pool-'+tableAState[i]));
+      });
+    }
+  },
+  {
+    caption: '前缀缓存（prefix caching）：请求 C 的前 4 个 token 与 A 完全相同。BlockPool 用 block 内容哈希在 cached_block_hash_to_block 中查到命中，直接复用物理 block #0（ref_cnt+1），不重复计算 KV，只为 C 独有的后续 token 分配新 block。',
+    run: () => {
+      tableCState = [tableAState[0]];
+      const bc = allocBlock('seqC', 'the/best/city');
+      tableCState.push(bc);
+    },
+    afterRender: () => {
+      document.getElementById('pool-'+tableCState[0]).classList.add('pulse');
+      drawArrow(document.getElementById('tc-0'), document.getElementById('pool-'+tableCState[0]));
+      drawArrow(document.getElementById('ta-0'), document.getElementById('pool-'+tableAState[0]));
+      drawArrow(document.getElementById('tc-1'), document.getElementById('pool-'+tableCState[1]));
+    }
+  },
+  {
+    caption: 'Attention 计算时（paged_attention CUDA kernel）：对每个 query，kernel 沿 block_table 逐项取 physical_block_number = block_table[block_idx]，据此算出 k_cache 的显存偏移，把散落各处的 K/V block gather 起来做 QKᵀ 与 softmax·V，全程不需要把 KV 拷成连续内存。',
+    run: () => {},
+    afterRender: () => {
+      tableAState.forEach((pid,i)=>{
+        drawArrow(document.getElementById('ta-'+i), document.getElementById('pool-'+pid));
+      });
+    }
+  },
+  {
+    caption: '请求 B 结束：其 block 的 ref_cnt 减到 0，重新挂回 free list（内容哈希仍登记在缓存中，之后若有相同前缀还能命中复用），显存立刻可供后续请求使用——按需分页、用完即还。',
+    run: () => {
+      freeBlocksOf('seqB');
+      tableBState = [];
+    }
+  }
+];
+
+let cur = -1;
+function goTo(idx){
+  clearArrows();
+  clearPulses();
+  cur = idx;
+  poolState = Array.from({length: POOL_SIZE}, () => ({owner:null, tokens:''}));
+  tableAState = []; tableBState = []; tableCState = [];
+  for (let i=0;i<=idx;i++){ steps[i].run(); }
+  render();
+  caption.textContent = steps[idx].caption;
+  document.getElementById('stepIndicator').textContent = `第 ${idx+1} / ${steps.length} 步`;
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('nextBtn').disabled = idx===steps.length-1;
+  if (steps[idx].afterRender) setTimeout(steps[idx].afterRender, 80);
+}
+
+document.getElementById('nextBtn').addEventListener('click', ()=>{ if(cur<steps.length-1) goTo(cur+1); });
+document.getElementById('prevBtn').addEventListener('click', ()=>{ if(cur>0) goTo(cur-1); });
+
+goTo(0);
+</script>
+</body>
+</html>

@@ -18,5 +18,15 @@
     "type": "local",
     "file": "一段文字进入大模型之后-QKV到底是什么.md",
     "source": "技术"
+  },
+  {
+    "slug": "vLLM中的PagedAttention-从原理到源码",
+    "title": "vLLM中的PagedAttention:从原理到源码",
+    "date": "2026-07-23",
+    "tags": ["LLM", "vLLM", "Inference"],
+    "description": "用操作系统分页的视角讲清PagedAttention:概念对比、vLLM源码调用链(BlockPool/block_table/CUDA kernel)、配置参数详解,附交互式动画演示。",
+    "type": "local",
+    "file": "vLLM中的PagedAttention-从原理到源码.md",
+    "source": "技术"
   }
 ]
