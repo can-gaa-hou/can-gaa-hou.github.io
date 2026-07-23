@@ -28,5 +28,15 @@
     "type": "local",
     "file": "vLLM中的PagedAttention-从原理到源码.md",
     "source": "技术"
+  },
+  {
+    "slug": "一行torch.compile背后-从Python字节码到Triton内核",
+    "title": "一行torch.compile背后:从Python字节码到Triton内核",
+    "date": "2026-07-23",
+    "tags": ["PyTorch", "Compiler"],
+    "description": "面向小白的torch.compile全链路拆解:Dynamo如何用PEP 523拦截字节码抓图、Guards与重编译、Graph Break、AOTAutograd前后向切分、Inductor融合生成Triton内核,附源码位置与动画演示。",
+    "type": "local",
+    "file": "一行torch.compile背后-从Python字节码到Triton内核.md",
+    "source": "技术"
   }
 ]

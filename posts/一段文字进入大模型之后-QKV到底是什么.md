@@ -2,6 +2,120 @@
 
 ---
 
+<div class="qkva-wrap" style="max-width:100%;margin:8px 0 4px;background:#1a1a18;border:1px solid #2a2a26;border-radius:12px;padding:16px 8px 8px;">
+<svg viewBox="0 0 860 500" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;font-family:'Inter','Noto Sans SC',sans-serif;">
+<defs>
+<marker id="qa-arr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path fill="#6b6a64" d="M0,0L6,3L0,6z"/></marker>
+</defs>
+<rect x="340" y="18" width="260" height="34" rx="8" fill="#1f1f1c" stroke="#3a3a34"/>
+<text x="470" y="40" text-anchor="middle" fill="#faf9f5" font-size="15">“大模型很强大”</text>
+<g class="qa qa-s1">
+<text x="16" y="106" fill="#a1a09a" font-size="12">① 分词 Tokenize</text>
+<line x1="450" y1="56" x2="264" y2="82" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<line x1="462" y1="56" x2="402" y2="82" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<line x1="478" y1="56" x2="538" y2="82" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<line x1="490" y1="56" x2="676" y2="82" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<rect x="220" y="88" width="80" height="30" rx="8" fill="#1f1f1c" stroke="#3a3a34"/><text x="260" y="108" text-anchor="middle" fill="#faf9f5" font-size="14">大模型</text>
+<rect x="360" y="88" width="80" height="30" rx="8" fill="#1f1f1c" stroke="#3a3a34"/><text x="400" y="108" text-anchor="middle" fill="#faf9f5" font-size="14">很</text>
+<rect x="500" y="88" width="80" height="30" rx="8" fill="#1f1f1c" stroke="#3a3a34"/><text x="540" y="108" text-anchor="middle" fill="#faf9f5" font-size="14">强</text>
+<rect x="640" y="88" width="80" height="30" rx="8" fill="#1f1f1c" stroke="#3a3a34"/><text x="680" y="108" text-anchor="middle" fill="#faf9f5" font-size="14">大</text>
+</g>
+<g class="qa qa-s2">
+<text x="16" y="167" fill="#a1a09a" font-size="12">② 查词表 → ID</text>
+<line x1="260" y1="122" x2="260" y2="144" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="400" y1="122" x2="400" y2="144" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="540" y1="122" x2="540" y2="144" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="680" y1="122" x2="680" y2="144" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<rect x="220" y="150" width="80" height="26" rx="6" fill="#1f1f1c" stroke="#2a2a26"/><text x="260" y="168" text-anchor="middle" fill="#6a9bcc" font-size="13" font-family="'JetBrains Mono',monospace">10432</text>
+<rect x="360" y="150" width="80" height="26" rx="6" fill="#1f1f1c" stroke="#2a2a26"/><text x="400" y="168" text-anchor="middle" fill="#6a9bcc" font-size="13" font-family="'JetBrains Mono',monospace">872</text>
+<rect x="500" y="150" width="80" height="26" rx="6" fill="#1f1f1c" stroke="#2a2a26"/><text x="540" y="168" text-anchor="middle" fill="#6a9bcc" font-size="13" font-family="'JetBrains Mono',monospace">231</text>
+<rect x="640" y="150" width="80" height="26" rx="6" fill="#1f1f1c" stroke="#2a2a26"/><text x="680" y="168" text-anchor="middle" fill="#6a9bcc" font-size="13" font-family="'JetBrains Mono',monospace">15</text>
+</g>
+<g class="qa qa-s3">
+<text x="16" y="216" fill="#a1a09a" font-size="12">③ 查Embedding表</text>
+<text x="16" y="232" fill="#a1a09a" font-size="12">　 ＋位置编码</text>
+<line x1="260" y1="180" x2="260" y2="200" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="400" y1="180" x2="400" y2="200" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="540" y1="180" x2="540" y2="200" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="680" y1="180" x2="680" y2="200" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<g>
+<rect x="229" y="206" width="14" height="14" rx="3" fill="#46688c"/><rect x="245" y="206" width="14" height="14" rx="3" fill="#2b3f55"/><rect x="261" y="206" width="14" height="14" rx="3" fill="#557ba3"/><rect x="277" y="206" width="14" height="14" rx="3" fill="#35506b"/>
+<rect x="369" y="206" width="14" height="14" rx="3" fill="#2b3f55"/><rect x="385" y="206" width="14" height="14" rx="3" fill="#557ba3"/><rect x="401" y="206" width="14" height="14" rx="3" fill="#35506b"/><rect x="417" y="206" width="14" height="14" rx="3" fill="#46688c"/>
+<rect x="509" y="206" width="14" height="14" rx="3" fill="#557ba3"/><rect x="525" y="206" width="14" height="14" rx="3" fill="#35506b"/><rect x="541" y="206" width="14" height="14" rx="3" fill="#46688c"/><rect x="557" y="206" width="14" height="14" rx="3" fill="#2b3f55"/>
+<rect x="649" y="206" width="14" height="14" rx="3" fill="#35506b"/><rect x="665" y="206" width="14" height="14" rx="3" fill="#46688c"/><rect x="681" y="206" width="14" height="14" rx="3" fill="#2b3f55"/><rect x="697" y="206" width="14" height="14" rx="3" fill="#557ba3"/>
+</g>
+<text x="260" y="238" text-anchor="middle" fill="#6b6a64" font-size="10">＋pos 0</text><text x="400" y="238" text-anchor="middle" fill="#6b6a64" font-size="10">＋pos 1</text><text x="540" y="238" text-anchor="middle" fill="#6b6a64" font-size="10">＋pos 2</text><text x="680" y="238" text-anchor="middle" fill="#6b6a64" font-size="10">＋pos 3</text>
+</g>
+<g class="qa qa-s4">
+<text x="16" y="284" fill="#a1a09a" font-size="12">④ ×W<tspan font-size="9" dy="3">Q</tspan><tspan dy="-3"> ×W</tspan><tspan font-size="9" dy="3">K</tspan><tspan dy="-3"> ×W</tspan><tspan font-size="9" dy="3">V</tspan></text>
+<line x1="260" y1="244" x2="260" y2="264" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="400" y1="244" x2="400" y2="264" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="540" y1="244" x2="540" y2="264" stroke="#6b6a64" marker-end="url(#qa-arr)"/><line x1="680" y1="244" x2="680" y2="264" stroke="#6b6a64" marker-end="url(#qa-arr)"/>
+<g font-size="11" font-weight="600" text-anchor="middle">
+<rect x="220" y="270" width="24" height="22" rx="5" fill="#d97757" fill-opacity=".85"/><text x="232" y="285" fill="#141413">Q</text>
+<rect x="248" y="270" width="24" height="22" rx="5" fill="#6a9bcc" fill-opacity=".85"/><text x="260" y="285" fill="#141413">K</text>
+<rect x="276" y="270" width="24" height="22" rx="5" fill="#7ca982" fill-opacity=".85"/><text x="288" y="285" fill="#141413">V</text>
+<rect x="360" y="270" width="24" height="22" rx="5" fill="#d97757" fill-opacity=".85"/><text x="372" y="285" fill="#141413">Q</text>
+<rect x="388" y="270" width="24" height="22" rx="5" fill="#6a9bcc" fill-opacity=".85"/><text x="400" y="285" fill="#141413">K</text>
+<rect x="416" y="270" width="24" height="22" rx="5" fill="#7ca982" fill-opacity=".85"/><text x="428" y="285" fill="#141413">V</text>
+<rect x="500" y="270" width="24" height="22" rx="5" fill="#d97757" class="qa-q3"/><text x="512" y="285" fill="#141413">Q</text>
+<rect x="528" y="270" width="24" height="22" rx="5" fill="#6a9bcc" fill-opacity=".85"/><text x="540" y="285" fill="#141413">K</text>
+<rect x="556" y="270" width="24" height="22" rx="5" fill="#7ca982" fill-opacity=".85"/><text x="568" y="285" fill="#141413">V</text>
+<rect x="640" y="270" width="24" height="22" rx="5" fill="#d97757" fill-opacity=".85"/><text x="652" y="285" fill="#141413">Q</text>
+<rect x="668" y="270" width="24" height="22" rx="5" fill="#6a9bcc" fill-opacity=".85"/><text x="680" y="285" fill="#141413">K</text>
+<rect x="696" y="270" width="24" height="22" rx="5" fill="#7ca982" fill-opacity=".85"/><text x="708" y="285" fill="#141413">V</text>
+</g>
+</g>
+<g class="qa qa-s5">
+<text x="16" y="336" fill="#a1a09a" font-size="12">⑤ 以“强”的Q为例：</text>
+<text x="16" y="352" fill="#a1a09a" font-size="12">　 Q·K → softmax</text>
+</g>
+<path class="qa-arc" d="M512,296 Q386,352 260,298" fill="none" stroke="#d97757" stroke-width="1.5" stroke-dasharray="400"/>
+<path class="qa-arc" d="M512,296 Q456,344 400,298" fill="none" stroke="#d97757" stroke-width="1.5" stroke-dasharray="400"/>
+<path class="qa-arc" d="M512,296 Q526,326 540,298" fill="none" stroke="#d97757" stroke-width="1.5" stroke-dasharray="400"/>
+<path class="qa-arc" d="M512,296 Q596,344 680,298" fill="none" stroke="#d97757" stroke-width="1.5" stroke-dasharray="400"/>
+<g>
+<rect class="qa-bar" x="250" y="388" width="20" height="14" fill="#d97757" fill-opacity=".8"/>
+<rect class="qa-bar" x="390" y="393" width="20" height="9" fill="#d97757" fill-opacity=".8"/>
+<rect class="qa-bar" x="530" y="362" width="20" height="40" fill="#d97757" fill-opacity=".8"/>
+<rect class="qa-bar" x="670" y="375" width="20" height="27" fill="#d97757" fill-opacity=".8"/>
+</g>
+<g class="qa qa-s5b" font-size="11" text-anchor="middle" fill="#d97757" font-family="'JetBrains Mono',monospace">
+<text x="260" y="418">0.15</text><text x="400" y="418">0.10</text><text x="540" y="418">0.45</text><text x="680" y="418">0.30</text>
+</g>
+<g class="qa qa-s5c">
+<text x="16" y="470" fill="#a1a09a" font-size="12">⑥ 加权求和 V</text>
+<line x1="260" y1="424" x2="410" y2="442" stroke="#7ca982" stroke-width="1.8" opacity=".45"/>
+<line x1="400" y1="424" x2="450" y2="442" stroke="#7ca982" stroke-width="1.5" opacity=".4"/>
+<line x1="540" y1="424" x2="490" y2="442" stroke="#7ca982" stroke-width="3.2" opacity=".75"/>
+<line x1="680" y1="424" x2="530" y2="442" stroke="#7ca982" stroke-width="2.4" opacity=".6"/>
+</g>
+<g class="qa-out">
+<rect x="370" y="444" width="200" height="42" rx="10" fill="rgba(217,119,87,.12)" stroke="#d97757"/>
+<text x="470" y="470" text-anchor="middle" fill="#faf9f5" font-size="13">“强”的输出向量（已融合上下文）</text>
+</g>
+</svg>
+<style>
+.qkva-wrap .qa{animation:qa-s1 18s linear infinite}
+.qkva-wrap .qa-s2{animation-name:qa-s2}
+.qkva-wrap .qa-s3{animation-name:qa-s3}
+.qkva-wrap .qa-s4{animation-name:qa-s4}
+.qkva-wrap .qa-s5{animation-name:qa-s5}
+.qkva-wrap .qa-s5b{animation-name:qa-s5b}
+.qkva-wrap .qa-s5c{animation-name:qa-s5c}
+.qkva-wrap .qa-arc{animation:qa-arc 18s linear infinite}
+.qkva-wrap .qa-bar{transform-box:fill-box;transform-origin:50% 100%;animation:qa-bar 18s linear infinite}
+.qkva-wrap .qa-out{transform-box:fill-box;transform-origin:center;animation:qa-out 18s linear infinite}
+.qkva-wrap .qa-q3{animation:qa-q3 18s linear infinite}
+@keyframes qa-s1{0%,2%{opacity:0}6%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-s2{0%,12%{opacity:0}16%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-s3{0%,24%{opacity:0}28%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-s4{0%,36%{opacity:0}40%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-s5{0%,47%{opacity:0}51%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-arc{0%,48%{stroke-dashoffset:400;opacity:0}52%{stroke-dashoffset:300;opacity:1}60%,95%{stroke-dashoffset:0;opacity:1}99%,100%{stroke-dashoffset:0;opacity:0}}
+@keyframes qa-bar{0%,56%{transform:scaleY(0);opacity:1}64%,95%{transform:scaleY(1);opacity:1}99%,100%{transform:scaleY(1);opacity:0}}
+@keyframes qa-s5b{0%,62%{opacity:0}66%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-s5c{0%,66%{opacity:0}70%,95%{opacity:1}99%,100%{opacity:0}}
+@keyframes qa-out{0%,72%{opacity:0;transform:scale(.92)}77%,95%{opacity:1;transform:scale(1)}99%,100%{opacity:0;transform:scale(1)}}
+@keyframes qa-q3{0%,47%{fill-opacity:.85}51%,95%{fill-opacity:1}100%{fill-opacity:.85}}
+@media (prefers-reduced-motion:reduce){.qkva-wrap *{animation:none!important}}
+</style>
+</div>
+
+*动画:一句话进入大模型的完整旅程——分词、查表、Embedding+位置编码、生成Q/K/V,最后以"强"为例演示注意力加权(自动循环播放)*
+
 ## 一、旅程的起点:文字变成Token
 
 模型不认识"字",只认识数字。所以第一件事,是把一段文字切成一个个**token**——注意token不一定是完整的词,很多时候是子词(subword)。现在主流大模型(GPT系列的tiktoken、LLaMA的SentencePiece)基本都用**BPE(Byte Pair Encoding)**或它的变体来做这件事。
