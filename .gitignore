@@ -7,3 +7,15 @@ public/
 .hugo_build.lock
 go.mod
 go.sum
+
+# macOS
+.DS_Store
+
+# DSH docs build output (built by CI)
+dsh/
+
+# Local IDE config
+.claude/
+
+# DeepSeek Harness submodule (git will track the submodule pointer only)
+deepseek-harness/
