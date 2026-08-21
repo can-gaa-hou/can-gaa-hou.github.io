@@ -11,11 +11,11 @@ go.sum
 # macOS
 .DS_Store
 
-# DSH docs build output (built by CI)
-dsh/
+# DSH docs build output (pre-built locally, committed to avoid CI timeout)
+# dsh/
 
 # Local IDE config
 .claude/
 
 # DeepSeek Harness submodule (git will track the submodule pointer only)
-deepseek-harness/
+# deepseek-harness/

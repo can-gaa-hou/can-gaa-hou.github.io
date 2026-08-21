@@ -23,30 +23,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: deepseek-harness/pnpm-lock.yaml
-
-      - name: Build DSH docs
-        run: |
-          cd deepseek-harness
-          pnpm install --ignore-scripts --frozen-lockfile
-          DOCS_BASE=/dsh/ pnpm --filter @deepseek-ai/website run build
-          cd ..
-          rm -rf dsh
-          mkdir -p dsh
-          cp -r deepseek-harness/website/.dist/* dsh/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
