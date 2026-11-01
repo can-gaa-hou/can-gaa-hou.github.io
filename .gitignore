@@ -8,6 +8,12 @@ public/
 go.mod
 go.sum
 
+# Markets page: built from the private markets repo by .github/workflows/pages.yml at deploy
+# time (or locally with `npm run build:site` over there). Never committed.
+/stock.html
+/markets/
+/.markets-src/
+
 # macOS
 .DS_Store
 

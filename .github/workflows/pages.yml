@@ -3,6 +3,9 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches: [main, master]
+  # Sent by the private markets repo (its notify-site.yml) whenever its main branch changes.
+  repository_dispatch:
+    types: [markets-updated]
   workflow_dispatch:
 
 permissions:
@@ -10,6 +13,8 @@ permissions:
   pages: write
   id-token: write
 
+# A Pages deployment replaces the whole site, so the Markets build has to be a step of
+# this same pipeline (a second workflow deploying on its own would wipe the other's output).
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -23,6 +28,59 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # ---- Markets: fetch the private source repo, build it, publish only the built output.
+      # Every step here is non-fatal: if anything goes wrong the rest of the site still deploys,
+      # just without the Markets page (see the warning step below).
+      - name: Fetch markets source (private)
+        id: markets
+        if: ${{ vars.MARKETS_API_BASE != '' }}
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: can-gaa-hou/markets
+          path: .markets-src
+          persist-credentials: false
+          # Either credential works; the deploy key wins when both are set.
+          #   MARKETS_DEPLOY_KEY  - private half of a read-only deploy key on the markets repo
+          #   MARKETS_READ_TOKEN  - fine-grained PAT with "Contents: Read" on the markets repo
+          ssh-key: ${{ secrets.MARKETS_DEPLOY_KEY }}
+          token: ${{ secrets.MARKETS_READ_TOKEN || github.token }}
+
+      - name: Setup Node
+        if: ${{ steps.markets.outcome == 'success' }}
+        continue-on-error: true
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build Markets
+        id: build
+        if: ${{ steps.markets.outcome == 'success' }}
+        continue-on-error: true
+        working-directory: .markets-src
+        env:
+          API_BASE: ${{ vars.MARKETS_API_BASE }}
+        run: |
+          npm ci --no-audit --no-fund
+          node scripts/build.mjs --out "$GITHUB_WORKSPACE"
+          echo "Markets built from can-gaa-hou/markets@$(git rev-parse --short HEAD)" >> "$GITHUB_STEP_SUMMARY"
+
+      # The private source must never end up in the published tree.
+      - name: Remove markets source from the publish tree
+        if: ${{ always() }}
+        run: |
+          rm -rf .markets-src
+          leaked="$(find . -path ./.git -prune -o \( -name stocks.yaml -o -name stock-api.js -o -name .markets-src \) -print)"
+          if [ -n "$leaked" ]; then
+            echo "::error title=Private source in publish tree::$leaked"
+            exit 1
+          fi
+
+      - name: Markets page not published
+        if: ${{ always() && steps.build.outcome != 'success' }}
+        run: |
+          echo "::warning title=Markets page not published::Skipped or failed. Needs variable MARKETS_API_BASE plus secret MARKETS_DEPLOY_KEY or MARKETS_READ_TOKEN (see the markets repo README). The rest of the site was deployed normally."
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
